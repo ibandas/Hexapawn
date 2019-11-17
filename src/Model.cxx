@@ -22,7 +22,7 @@ int Model::Player::get_pawns() const {
 }
 
 void Model::Player::MakeMove(int move) {
-
+    Model::Player::A;
 }
 
 void Model::print_legal_moves() const {

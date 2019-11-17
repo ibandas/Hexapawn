@@ -32,7 +32,7 @@ struct Model::Point{
 class Model::Player
 {
 public:
-    enum class Name {A, B};
+    enum {A, B};
     Player();
     Point[] get_pawns() const;
 
