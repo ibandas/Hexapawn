@@ -9,7 +9,7 @@ Model::Model()
 
 Model::Model(int rows, int columns)
        :board_(rows * columns),
-       A_{Model::Player::A},
+       A_{Model::Player::W},
        B_{Model::Player::B}{
     if(rows < 3 || columns < 3){
         throw std::invalid_argument("Model::Model requires a board of size more than 3 x 3");
@@ -125,14 +125,13 @@ void Model::set_legal_moves(Model::Player &player) {
         }
         if(check_move_right_diagonal(allPawn)) {
             Model::Point p(allPawn.x-1, allPawn.y+1);
-            legalMoves_.push_back(p);
+            player.addMoves(p);
         }
         if(check_move_left_diagonal(allPawn)) {
             Model::Point p(allPawn.x+1, allPawn.y+1);
-            legalMoves_.push_back(p);
+            player.addMoves(p);
         }
     }
-    return legalMoves_;
 }
 
 
