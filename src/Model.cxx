@@ -213,19 +213,14 @@ void Model::move_pawn(Model::Point current_position_, Model::Point final_positio
 }
 
 
-void Model::get_user_move(int moveNumber) {
-
-//    int moveNumber;
-//    os << "\n" << "Enter your desired move: ";
-//    is >> moveNumber;
-//    os<<"\n";
-//
+void Model::move_choice(int moveNumber) {
     vector<Move> availableMoves = get_legal_moves();
     if(moveNumber > availableMoves.size())
     {
         throw std::invalid_argument("Not a valid Move Number");
     }
     move_pawn(availableMoves[moveNumber-1].current_position_,availableMoves[moveNumber-1].final_position_);
+    switch_turns(turn_);
 }
 
 bool Model::is_reached_end() const{

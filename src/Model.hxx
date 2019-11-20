@@ -48,9 +48,9 @@ public:
 
     Piece get_piece_at(Point p) const;
 
-    //gets the user input for the move from the user
-//    void get_user_move(istream &is, ostream &os);
-    void get_user_move(int moveNumber);
+    // gets the user input for the move from the user
+    // void get_user_move(istream &is, ostream &os);
+    void move_choice(int moveNumber);
 
     //switches the player playing the game
     void switch_turns(Model::Player p);
@@ -58,16 +58,16 @@ public:
     //gets the player who is currently playing
     Player current_player() const ;
 
+    //gets all of the legal moves a player can perform
+    vector<Move> get_legal_moves() const;
+
 private:
 
     vector<vector<Piece>> board_;
     Player turn_;
 
-    //gets all of the legal moves a player can perform
-    vector<Move> get_legal_moves() const;
-
     //move a particular pawn from one position on the board to the other
-    void move_pawn(Point current_position_,Point final_position_ );
+    void move_pawn(Point current_position_, Point final_position_ );
 
     // checks if any pawn of the user has reached the end of the board
     bool is_reached_end() const;

@@ -15,5 +15,10 @@ int main()
 //    }
 
     UserInterface ui = UserInterface(board);
-    ui.print_board();
+    while(!board.is_game_over()) {
+        ui.print_board();
+        ui.print_legal_moves();
+        ui.get_user_move();
+        board.switch_turns(board.current_player());
+    }
 }
