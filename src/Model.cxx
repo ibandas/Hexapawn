@@ -64,7 +64,7 @@ vector<Model::Move> Model::get_legal_moves() const {
                     legal_moves.emplace_back(current_position, Point(x+1, y));
                 }
             }
-            else if (check_move_right_diagonally(current_position)) {
+            if (check_move_right_diagonally(current_position)) {
                 if (turn_ == Player::B) {
                     legal_moves.emplace_back(current_position, Point(x-1, y+1));
                 }
@@ -72,7 +72,7 @@ vector<Model::Move> Model::get_legal_moves() const {
                     legal_moves.emplace_back(current_position, Point(x+1, y-1));
                 }
             }
-            else if (check_move_left_diagonally(current_position)) {
+            if (check_move_left_diagonally(current_position)) {
                 if (turn_ == Player::B) {
                     legal_moves.emplace_back(current_position, Point(x-1, y-1));
                 }
@@ -111,34 +111,7 @@ bool Model::check_move_forward(const Point &p) const {
     return false;
 }
 
-//bool Model::check_move_forward(const Point &p) const {
-//    if (turn_ == Player::B) {
-//        // Technically might return game over here
-//        if (p.x == 0) {
-//            return false;
-//        }
-//        else {
-//            if (board_[p.x][p.y] == Piece::Black && board_[p.x-1][p.y] == Piece::Empty) {
-//                return true;
-//            }
-//        }
-//    }
-//    else if (turn_ == Player::W) {
-//        // Technically might return game over here
-//        if (p.x == board_.size() - 1) {
-//            return false;
-//        }
-//        else {
-//            if (board_[p.x][p.y] == Piece::White && board_[p.x+1][p.y] == Piece::Empty) {
-//                return true;
-//            }
-//        }
-//    }
-//    return false;
-//}
-
 bool Model::check_move_right_diagonally(const Point &p) const {
-
     if (turn_ == Player::B) {
         if (p.y == board_[p.x].size() - 1) {
             return false;
