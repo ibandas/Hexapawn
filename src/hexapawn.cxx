@@ -6,9 +6,11 @@ using namespace std;
 int main()
 {
     Model board = Model();
-    board.print_board(std::cout);
-    Model::Point p(3,0);
-    Model::Point p1(2,0);
-    board.move_pawn(p, p1);
-    board.print_legal_moves(std::cout);
+    while(!board.is_game_over()) {
+        board.print_board(std::cout);
+        board.print_legal_moves(std::cout);
+        board.get_user_move(std::cin, std::cout);
+        board.switch_turns(board.current_player());
+    }
+
 }

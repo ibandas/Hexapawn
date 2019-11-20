@@ -10,7 +10,6 @@ public:
     Model();
     enum class Piece {White, Black, Empty};
     enum class Player {W, B};
-    //My Additions:
     struct Point {
         Point(int x, int y)
                 :x{x},
@@ -27,19 +26,45 @@ public:
         Point final_position_;
     };
 
-    vector<Move> get_legal_moves() const ;
-    void print_legal_moves(ostream &os);
-    bool check_move_forward( const Point &p) const ;
-    bool check_move_right_diagonally(const Point &p) const ;
-    bool check_move_left_diagonally(const Point &p)  const;
+    //checks if game is over?
+    bool is_game_over() const;
 
+    //prints out all of the legal moves a user can perform with their pawns
+    void print_legal_moves(ostream &os) const ;
+
+    //prints the state of the model
     void print_board(ostream &os) const;
-    void move_pawn(Point current_position_,Point final_position_ );
 
-    Player switch_turns(Model::Player p);
+    //gets the user input for the move from the user
+    void get_user_move(istream &is, ostream &os);
+
+    //switches the player playing the game
+    void switch_turns(Model::Player p);
+
+    //gets the player who is currently playing
+    Player current_player() const ;
+
 private:
 
     vector<vector<Piece>> board_;
-    //My Additions:
     Player turn_;
+
+    //gets all of the legal moves a player can perform
+    vector<Move> get_legal_moves() const;
+
+    //move a particular pawn from one position on the board to the other
+    void move_pawn(Point current_position_,Point final_position_ );
+
+    // checks if any pawn of the user has reached the end of the board
+    bool is_reached_end() const;
+
+    //Checks if a particular piece can move forward
+    bool check_move_forward( const Point &p) const ;
+
+    //Checks if a particular piece can move diagonally right
+    bool check_move_right_diagonally(const Point &p) const ;
+
+    //Checks if a particular piece can move diagonally left
+    bool check_move_left_diagonally(const Point &p)  const;
+
 };

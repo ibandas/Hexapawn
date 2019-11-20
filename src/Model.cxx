@@ -111,6 +111,32 @@ bool Model::check_move_forward(const Point &p) const {
     return false;
 }
 
+//bool Model::check_move_forward(const Point &p) const {
+//    if (turn_ == Player::B) {
+//        // Technically might return game over here
+//        if (p.x == 0) {
+//            return false;
+//        }
+//        else {
+//            if (board_[p.x][p.y] == Piece::Black && board_[p.x-1][p.y] == Piece::Empty) {
+//                return true;
+//            }
+//        }
+//    }
+//    else if (turn_ == Player::W) {
+//        // Technically might return game over here
+//        if (p.x == board_.size() - 1) {
+//            return false;
+//        }
+//        else {
+//            if (board_[p.x][p.y] == Piece::White && board_[p.x+1][p.y] == Piece::Empty) {
+//                return true;
+//            }
+//        }
+//    }
+//    return false;
+//}
+
 bool Model::check_move_right_diagonally(const Point &p) const {
 
     if (turn_ == Player::B) {
@@ -152,19 +178,19 @@ bool Model::check_move_left_diagonally(const Point &p) const{
     return false;
 }
 
-Model::Player Model::switch_turns(Model::Player p) {
+void Model::switch_turns(Model::Player p) {
     if (p == Model::Player::B) {
-        return Model::Player::W;
+        turn_ = Model::Player::W;
     }
     else {
-        return Model::Player::B;
+        turn_ = Model::Player::B;
     }
 }
 
-void Model::print_legal_moves(ostream &os) {
+void Model::print_legal_moves(ostream &os) const {
     vector<Move> legal_moves = get_legal_moves();
-    for (int i = 0; i < legal_moves.size(); i++) {
-        os << "Move " << i << ": " << "(" <<
+    for (unsigned int i = 0; i < legal_moves.size(); i++) {
+        os << "Move " << i + 1<< ": " << "(" <<
            legal_moves[i].current_position_.x << "," << legal_moves[i].current_position_.y << ")" << " to " << "(" <<
            legal_moves[i].final_position_.x << "," << legal_moves[i].final_position_.y << ")" << "\n";
     }
@@ -174,4 +200,46 @@ void Model::move_pawn(Model::Point current_position_, Model::Point final_positio
     Model::Piece current_piece_ = board_[current_position_.x][current_position_.y];
     board_[current_position_.x][current_position_.y] = Model::Piece::Empty;
     board_[final_position_.x][final_position_.y] = current_piece_;
+}
+
+
+void Model::get_user_move(istream &is, ostream &os) {
+
+    int moveNumber;
+    os << "\n" << "Enter your desired move: ";
+    is >> moveNumber;
+    os<<"\n";
+
+    vector<Move> availableMoves = get_legal_moves();
+    if(moveNumber > availableMoves.size())
+    {
+        throw std::invalid_argument("Not a valid Move Number");
+    }
+    move_pawn(availableMoves[moveNumber-1].current_position_,availableMoves[moveNumber-1].final_position_);
+}
+
+bool Model::is_reached_end() const{
+    if(turn_ == Model::Player::B){
+        for(auto i : board_[0])
+        {
+            if(i == Model::Piece::Black)
+                return true;
+        }
+    } else if(turn_ == Model::Player::W){
+        for(auto i : board_[board_.size() - 1])
+        {
+            if(i == Model::Piece::White)
+                return true;
+        }
+    }
+
+    return false;
+}
+
+bool Model::is_game_over() const {
+    return is_reached_end();
+}
+
+Model::Player Model::current_player() const {
+    return turn_;
 }
