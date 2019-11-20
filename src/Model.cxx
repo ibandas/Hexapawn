@@ -14,7 +14,7 @@ Model::Model() {
         cout << "\n";
     }
     // Initialize Player
-    turn_ = Player::B;
+    turn_ = Player::W;
     // Initialize board
     board_.resize(rows);
     for (int i = 0; i < rows; i++)
@@ -54,7 +54,7 @@ void Model::print_board() {
 vector<vector<int>> Model::get_legal_moves() {
     vector<vector<int>> legal_moves;
     for (int x = 0; x < board_.size(); x++) {
-        for (int y = 0; y < board_.size(); y++) {
+        for (int y = 0; y < board_[x].size(); y++) {
             if (check_move_forward(x, y)) {
                 if (turn_ == Player::B) {
                     legal_moves.push_back({x, y, x-1, y});
@@ -84,48 +84,15 @@ vector<vector<int>> Model::get_legal_moves() {
     return legal_moves;
 }
 
-vector<vector<int>> Model::add_move_forward(vector<vector<int>> legal_moves, int x, int y) {
-    if (turn_ == Player::B) {
-        legal_moves.push_back({x, y, x-1, y});
-    }
-    else if (turn_ == Player::W) {
-        legal_moves.push_back({x, y, x+1, y});
-    }
-    return legal_moves;
-}
-
-vector<vector<int>> Model::add_move_right_diagonally(vector<vector<int>> legal_moves, int x, int y) {
-    if (turn_ == Player::B) {
-        legal_moves.push_back({x, y, x-1, y+1});
-    }
-    else if (turn_ == Player::W) {
-        legal_moves.push_back({x, y, x+1, y-1});
-    }
-    return legal_moves;
-}
-
-vector<vector<int>> Model::add_move_left_diagonally(vector<vector<int>> legal_moves, int x, int y) {
-    if (turn_ == Player::B) {
-        legal_moves.push_back({x, y, x-1, y-1});
-    }
-    else if (turn_ == Player::W) {
-        legal_moves.push_back({x, y, x+1, y+1});
-    }
-    return legal_moves;
-}
-
 bool Model::check_move_forward(int x, int y) {
+    //cout << board_.size();
     if (turn_ == Player::B) {
-        // cout << "Here \n";
-        // Technically might return game over here
         if (x == 0) {
-            // cout << "Here Too \n";
             return false;
         }
         else {
-            // cout << "Here Thrice \n";
-            if (board_[x-1][y] == Piece::Empty) {
-                // cout << "Here Fourth \n";
+            if (board_[x][y] == Piece::Black && board_[x-1][y] == Piece::Empty) {
+                //cout << "Here Fourth \n";
                 return true;
             }
         }
@@ -136,7 +103,7 @@ bool Model::check_move_forward(int x, int y) {
             return false;
         }
         else {
-            if (board_[x+1][y] == Piece::Empty) {
+            if (board_[x][y] == Piece::White && board_[x+1][y] == Piece::Empty) {
                 return true;
             }
         }
