@@ -9,6 +9,7 @@ Model::Model()
 
 Model::Model(int rows, int columns) {
     if (rows < 3 || columns < 3) {
+
 //        cout << "Enter number of rows equal or greater than three: ";
 //        cin >> rows;
 //        cout << "Enter number of columns equal or greater than three: ";
@@ -70,22 +71,22 @@ Model::Model(int rows, int columns) {
 //}
 
 
-void Model::print_board(ostream &os) const {
-    for (auto & row : board_) {
-        for (auto & column : row) {
-            if (column == Model::Piece::White) {
-                os << "W ";
-            }
-            else if (column == Model::Piece::Black) {
-                os << "B ";
-            }
-            else  {
-                os << "N ";
-            }
-        }
-        os << "\n";
-    }
-}
+//void Model::print_board(ostream &os) const {
+//    for (auto & row : board_) {
+//        for (auto & column : row) {
+//            if (column == Model::Piece::White) {
+//                os << "W ";
+//            }
+//            else if (column == Model::Piece::Black) {
+//                os << "B ";
+//            }
+//            else  {
+//                os << "N ";
+//            }
+//        }
+//        os << "\n";
+//    }
+//}
 
 vector<Model::Move> Model::get_legal_moves() const {
     vector<Model::Move> legal_moves;
@@ -212,13 +213,13 @@ void Model::move_pawn(Model::Point current_position_, Model::Point final_positio
 }
 
 
-void Model::get_user_move(istream &is, ostream &os) {
+void Model::get_user_move(int moveNumber) {
 
-    int moveNumber;
-    os << "\n" << "Enter your desired move: ";
-    is >> moveNumber;
-    os<<"\n";
-
+//    int moveNumber;
+//    os << "\n" << "Enter your desired move: ";
+//    is >> moveNumber;
+//    os<<"\n";
+//
     vector<Move> availableMoves = get_legal_moves();
     if(moveNumber > availableMoves.size())
     {
@@ -251,4 +252,16 @@ bool Model::is_game_over() const {
 
 Model::Player Model::current_player() const {
     return turn_;
+}
+
+int Model::get_board_row_size() const {
+    return board_.size();
+}
+
+int Model::get_board_column_size() const {
+    return board_[0].size();
+}
+
+Model::Piece Model::get_piece_at(Model::Point p) const {
+    return board_[p.x][p.y];
 }

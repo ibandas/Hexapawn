@@ -8,11 +8,15 @@ using namespace std;
 class Model {
 public:
 
+
     Model();
+
     Model(int rows, int columns);
 
     enum class Piece {White, Black, Empty};
+
     enum class Player {W, B};
+
     struct Point {
         Point(int x, int y)
                 :x{x},
@@ -38,8 +42,15 @@ public:
     //prints the state of the model
     void print_board(ostream &os) const;
 
+    int get_board_row_size() const;
+
+    int get_board_column_size() const;
+
+    Piece get_piece_at(Point p) const;
+
     //gets the user input for the move from the user
-    void get_user_move(istream &is, ostream &os);
+//    void get_user_move(istream &is, ostream &os);
+    void get_user_move(int moveNumber);
 
     //switches the player playing the game
     void switch_turns(Model::Player p);
