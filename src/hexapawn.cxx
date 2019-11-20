@@ -1,5 +1,5 @@
 #include "Model.hxx"
-#include "UsesrInterface.h"
+#include "UserInterface.hxx"
 #include <iostream>
 
 using namespace std;
