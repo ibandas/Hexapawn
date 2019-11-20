@@ -7,7 +7,10 @@ using namespace std;
 
 class Model {
 public:
+
     Model();
+    Model(int rows, int columns);
+
     enum class Piece {White, Black, Empty};
     enum class Player {W, B};
     struct Point {

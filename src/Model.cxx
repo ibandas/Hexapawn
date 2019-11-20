@@ -3,15 +3,20 @@
 
 using namespace std;
 
-Model::Model() {
-    int rows = 0;
-    int columns = 0;
-    while(rows < 3 || columns < 3) {
-        cout << "Enter number of rows equal or greater than three: ";
-        cin >> rows;
-        cout << "Enter number of columns equal or greater than three: ";
-        cin >> columns;
-        cout << "\n";
+Model::Model()
+   : Model(3,3){}
+
+
+Model::Model(int rows, int columns) {
+    if (rows < 3 || columns < 3) {
+//        cout << "Enter number of rows equal or greater than three: ";
+//        cin >> rows;
+//        cout << "Enter number of columns equal or greater than three: ";
+//        cin >> columns;
+//        cout << "\n";
+
+        throw std::invalid_argument("Model::Model requires more than 2 rows and columns");
+
     }
     // Initialize Player
     turn_ = Player::B;
@@ -32,6 +37,37 @@ Model::Model() {
         }
     }
 }
+
+
+//Model::Model() {
+//    int rows = 0;
+//    int columns = 0;
+//    while(rows < 3 || columns < 3) {
+//        cout << "Enter number of rows equal or greater than three: ";
+//        cin >> rows;
+//        cout << "Enter number of columns equal or greater than three: ";
+//        cin >> columns;
+//        cout << "\n";
+//    }
+//    // Initialize Player
+//    turn_ = Player::B;
+//    // Initialize board
+//    board_.resize(rows);
+//    for (int i = 0; i < rows; i++)
+//        board_[i].resize(columns);
+//
+//    for (int x = 0; x < rows; x++) {
+//        for (int y = 0; y < columns; y++) {
+//            if (x == 0) {
+//                board_[x][y] = Model::Piece::White;
+//            } else if (x == rows - 1) {
+//                board_[x][y] = Model::Piece::Black;
+//            } else {
+//                board_[x][y] = Model::Piece::Empty;
+//            }
+//        }
+//    }
+//}
 
 
 void Model::print_board(ostream &os) const {
@@ -210,7 +246,7 @@ bool Model::is_reached_end() const{
 }
 
 bool Model::is_game_over() const {
-    return is_reached_end();
+    return is_reached_end() || get_legal_moves().empty();
 }
 
 Model::Player Model::current_player() const {
