@@ -14,7 +14,7 @@ Model::Model() {
         cout << "\n";
     }
     // Initialize Player
-    turn_ = Player::W;
+    turn_ = Player::B;
     // Initialize board
     board_.resize(rows);
     for (int i = 0; i < rows; i++)
@@ -34,76 +34,145 @@ Model::Model() {
 }
 
 
-void Model::print_board() {
-    for (int row = 0; row < board_.size(); row++) {
-        for (int column = 0; column < board_[row].size(); column++) {
-            if (board_[row][column] == Model::Piece::White) {
-                cout << "W ";
+void Model::print_board(ostream &os) const {
+    for (auto & row : board_) {
+        for (auto & column : row) {
+            if (column == Model::Piece::White) {
+                os << "W ";
             }
-            else if (board_[row][column] == Model::Piece::Black) {
-                cout << "B ";
+            else if (column == Model::Piece::Black) {
+                os << "B ";
             }
             else  {
-                cout << "N ";
+                os << "N ";
             }
         }
-        cout << "\n";
+        os << "\n";
     }
 }
 
-vector<vector<int>> Model::get_legal_moves() {
-    vector<vector<int>> legal_moves;
-    for (int x = 0; x < board_.size(); x++) {
-        for (int y = 0; y < board_[x].size(); y++) {
-            if (check_move_forward(x, y)) {
-                if (turn_ == Player::B) {
-                    legal_moves.push_back({x, y, x-1, y});
+//vector<vector<int>> Model::get_legal_moves() {
+//    vector<vector<int>> legal_moves;
+//    for (int x = 0; x < board_.size(); x++) {
+//        for (int y = 0; y < board_.size(); y++) {
+//            if (check_move_forward(Point(x, y))) {
+//                if (turn_ == Player::B) {
+//                    legal_moves.push_back({x, y, x-1, y});
+//                }
+//                else if (turn_ == Player::W) {
+//                    legal_moves.push_back({x, y, x+1, y});
+//                }
+//            }
+//            else if (check_move_right_diagonally(Point(x, y))) {
+//                if (turn_ == Player::B) {
+//                    legal_moves.push_back({x, y, x-1, y+1});
+//                }
+//                else if (turn_ == Player::W) {
+//                    legal_moves.push_back({x, y, x+1, y-1});
+//                }
+//            }
+//            else if (check_move_left_diagonally(Point (x, y))) {
+//                if (turn_ == Player::B) {
+//                    legal_moves.push_back({x, y, x-1, y-1});
+//                }
+//                else if (turn_ == Player::W) {
+//                    legal_moves.push_back({x, y, x+1, y+1});
+//                }
+//            }
+//        }
+//    }
+//    return legal_moves;
+//}
+vector<Model::Move> Model::get_legal_moves() const {
+    vector<Model::Move> legal_moves;
+        for(int x = 0; x < board_.size(); ++x) {
+            for(int y = 0; y < board_.size(); ++y) {
+                Point current_position = Point(x,y);
+                if (check_move_forward(current_position)) {
+                    if (turn_ == Player::B) {
+                        legal_moves.emplace_back( current_position, Point(x-1,y));
+                    }
+                    else if (turn_ == Player::W) {
+                        legal_moves.emplace_back(current_position, Point(x+1, y));
+                    }
                 }
-                else if (turn_ == Player::W) {
-                    legal_moves.push_back({x, y, x+1, y});
+                else if (check_move_right_diagonally(current_position)) {
+                    if (turn_ == Player::B) {
+                        legal_moves.emplace_back(current_position, Point(x-1, y+1));
+                    }
+                    else if (turn_ == Player::W) {
+                        legal_moves.emplace_back(current_position, Point(x+1, y-1));
+                    }
                 }
-            }
-            else if (check_move_right_diagonally(x, y)) {
-                if (turn_ == Player::B) {
-                    legal_moves.push_back({x, y, x-1, y+1});
-                }
-                else if (turn_ == Player::W) {
-                    legal_moves.push_back({x, y, x+1, y-1});
-                }
-            }
-            else if (check_move_left_diagonally(x, y)) {
-                if (turn_ == Player::B) {
-                    legal_moves.push_back({x, y, x-1, y-1});
-                }
-                else if (turn_ == Player::W) {
-                    legal_moves.push_back({x, y, x+1, y+1});
+                else if (check_move_left_diagonally(current_position)) {
+                    if (turn_ == Player::B) {
+                        legal_moves.emplace_back(current_position, Point(x-1, y-1));
+                    }
+                    else if (turn_ == Player::W) {
+                        legal_moves.emplace_back(current_position, Point(x+1, y+1));
+                    }
                 }
             }
         }
-    }
     return legal_moves;
 }
 
-bool Model::check_move_forward(int x, int y) {
-    //cout << board_.size();
+//vector<vector<int>> Model::add_move_forward(vector<vector<int>> legal_moves, int x, int y) {
+//    if (turn_ == Player::B) {
+//        legal_moves.push_back({x, y, x-1, y});
+//    }
+//    else if (turn_ == Player::W) {
+//        legal_moves.push_back({x, y, x+1, y});
+//    }
+//    return legal_moves;
+//}
+//
+//vector<vector<int>> Model::add_move_right_diagonally(vector<vector<int>> legal_moves, int x, int y) {
+//    if (turn_ == Player::B) {
+//        legal_moves.push_back({x, y, x-1, y+1});
+//    }
+//    else if (turn_ == Player::W) {
+//        legal_moves.push_back({x, y, x+1, y-1});
+//    }
+//    return legal_moves;
+//}
+//
+//vector<vector<int>> Model::add_move_left_diagonally(vector<vector<int>> legal_moves, int x, int y) {
+//    if (turn_ == Player::B) {
+//        legal_moves.push_back({x, y, x-1, y-1});
+//    }
+//    else if (turn_ == Player::W) {
+//        legal_moves.push_back({x, y, x+1, y+1});
+//    }
+//    return legal_moves;
+//}
+
+
+
+
+bool Model::check_move_forward(const Point &p) const {
     if (turn_ == Player::B) {
-        if (x == 0) {
+        // cout << "Here \n";
+        // Technically might return game over here
+        if (p.x == 0) {
+            // cout << "Here Too \n";
             return false;
         }
         else {
-            if (board_[x][y] == Piece::Black && board_[x-1][y] == Piece::Empty) {
-                //cout << "Here Fourth \n";
+            // cout << "Here Thrice \n";
+            if (board_[p.x-1][p.y] == Piece::Empty) {
+                // cout << "Here Fourth \n";
                 return true;
             }
         }
     }
     else if (turn_ == Player::W) {
         // Technically might return game over here
-        if (x == board_.size() - 1) {
+        if (p.x == board_.size() - 1) {
             return false;
         }
         else {
-            if (board_[x][y] == Piece::White && board_[x+1][y] == Piece::Empty) {
+            if (board_[p.x+1][p.y] == Piece::Empty) {
                 return true;
             }
         }
@@ -111,24 +180,22 @@ bool Model::check_move_forward(int x, int y) {
     return false;
 }
 
-bool Model::check_move_right_diagonally(int x, int y) {
+bool Model::check_move_right_diagonally(const Point &p) const {
 
     if (turn_ == Player::B) {
-        if (y == board_[x].size() - 1) {
+        if (p.y == board_[p.x].size() - 1) {
             return false;
         }
-        else if (board_[x][y] == Piece::Black) {
-            if (board_[x-1][y+1] == Piece::White) {
+        else if (board_[p.x][p.y] == Piece::Black && board_[p.x-1][p.y+1] == Piece::White) {
                 return true;
-            }
         }
     }
     else if (turn_ == Player::W) {
-        if (y == 0) {
+        if (p.y == 0) {
             return false;
         }
-        else if (board_[x][y] == Piece::White) {
-            if (board_[x+1][y-1] == Piece::Black) {
+        else if (board_[p.x][p.y] == Piece::White) {
+            if (board_[p.x+1][p.y-1] == Piece::Black) {
                 return true;
             }
         }
@@ -136,23 +203,23 @@ bool Model::check_move_right_diagonally(int x, int y) {
     return false;
 }
 
-bool Model::check_move_left_diagonally(int x, int y) {
+bool Model::check_move_left_diagonally(const Point &p) const{
     if (turn_ == Player::B) {
-        if (y == 0) {
+        if (p.y == 0) {
             return false;
         }
-        else if (board_[x][y] == Piece::Black) {
-            if (board_[x-1][y-1] == Piece::White) {
+        else if (board_[p.x][p.y] == Piece::Black) {
+            if (board_[p.x-1][p.y-1] == Piece::White) {
                 return true;
             }
         }
     }
     else if (turn_ == Player::W) {
-        if (y == board_[x].size() - 1) {
+        if (p.y == board_[p.x].size() - 1) {
             return false;
         }
-        else if (board_[x][y] == Piece::White) {
-            if (board_[x+1][y+1] == Piece::Black) {
+        else if (board_[p.x][p.y] == Piece::White) {
+            if (board_[p.x+1][p.y+1] == Piece::Black) {
                 return true;
             }
         }
@@ -169,11 +236,31 @@ Model::Player Model::switch_turns(Model::Player p) {
     }
 }
 
-void Model::print_legal_moves() {
-    vector<vector<int>> legal_moves = get_legal_moves();
+
+
+//void Model::print_legal_moves() {
+//    vector<vector<int>> legal_moves = get_legal_moves();
+//    for (int i = 0; i < legal_moves.size(); i++) {
+//        cout << "Move " << i << ": " << "(" <<
+//             legal_moves[i][0] << "," << legal_moves[i][1] << ")" << " to " << "(" <<
+//             legal_moves[i][2] << "," << legal_moves[i][3] << ")" << "\n";
+//    }
+//}
+
+void Model::print_legal_moves(ostream &os) {
+    vector<Move> legal_moves = get_legal_moves();
     for (int i = 0; i < legal_moves.size(); i++) {
-        cout << "Move " << i << ": " << "(" <<
-             legal_moves[i][0] << "," << legal_moves[i][1] << ")" << " to " << "(" <<
-             legal_moves[i][2] << "," << legal_moves[i][3] << ")" << "\n";
+        os << "Move " << i << ": " << "(" <<
+           legal_moves[i].current_position_.x << "," << legal_moves[i].current_position_.y << ")" << " to " << "(" <<
+           legal_moves[i].final_position_.x << "," << legal_moves[i].final_position_.y << ")" << "\n";
     }
 }
+
+
+void Model::move_pawn(Model::Point current_position_, Model::Point final_position_) {
+    Model::Piece current_piece_ = board_[current_position_.x][current_position_.y];
+    board_[current_position_.x][current_position_.y] = Model::Piece::Empty;
+    board_[final_position_.x][final_position_.y] = current_piece_;
+}
+
+
