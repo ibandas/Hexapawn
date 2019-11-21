@@ -57,7 +57,7 @@ TEST_CASE("Test Run on 3x3 Board")
     m.move_choice(1);
     piece1 = m.get_piece_at(Model::Point(1, 0));
     CHECK(piece1 == Model::Piece::Black);
-    
+
     // Move 2
     CHECK(m.current_player() == Model::Player::W);
     Model::Piece piece2 = m.get_piece_at(Model::Point(0, 1));
@@ -65,7 +65,7 @@ TEST_CASE("Test Run on 3x3 Board")
     m.move_choice(2);
     piece2 = m.get_piece_at(Model::Point(1, 0));
     CHECK(piece2 == Model::Piece::White);
-    
+
     // Move 3
     CHECK(m.current_player() == Model::Player::B);
     Model::Piece piece3 = m.get_piece_at(Model::Point(1, 1));
@@ -81,7 +81,7 @@ TEST_CASE("Test Run on 3x3 Board")
     m.move_choice(2);
     piece4 = m.get_piece_at(Model::Point(1, 2));
     CHECK(piece4 == Model::Piece::White);
-    
+
     // Move 5
     CHECK(m.current_player() == Model::Player::B);
     Model::Piece piece5 = m.get_piece_at(Model::Point(0, 1));
@@ -89,7 +89,7 @@ TEST_CASE("Test Run on 3x3 Board")
     m.move_choice(1);
     piece5 = m.get_piece_at(Model::Point(0, 1));
     CHECK(piece3 == Model::Piece::Black);
-    CHECK(m.is_game_over() == true);
+    CHECK(m.is_game_over());
 
 }
 
