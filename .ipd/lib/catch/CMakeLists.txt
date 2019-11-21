@@ -10,7 +10,7 @@ project(Catch2
 
 add_library(catch
         include/catch.h
-        src/catch-main.cpp ../../../src/UsesrInterface.cpp ../../../src/UsesrInterface.h)
+        src/catch-main.cpp ../../../src/UserInterface.cxx ../../../src/UserInterface.hxx)
 
 set_target_properties(catch PROPERTIES
         CXX_STANDARD            14

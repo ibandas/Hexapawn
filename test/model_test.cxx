@@ -24,20 +24,4 @@ TEST_CASE("Initial Player is B")
     CHECK(m.current_player() == Model::Player::B);
 }
 
-TEST_CASE("Switch turns")
-{
-    Model m;
-    m.switch_turns(m.current_player());
-    CHECK(m.current_player() == Model::Player::W);
-}
-
-TEST_CASE("Proper Game")
-{
-    Model m;
-    m.get_user_move(0);
-    m.switch_turns(m.current_player());
-    CHECK(m.current_player() == Model::Player::W);
-    m.get_user_move(0);
-    m.switch_turns(m.current_player());
-    CHECK(m.current_player() == Model::Player::B);}
 

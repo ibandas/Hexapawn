@@ -1,11 +1,39 @@
 //
-// Created by madha on 20-11-2019.
+// Created by madhav on 20-11-2019.
 //
 
 #include "UserInterface.hxx"
 
-void UserInterface::print_board() {
+UserInterface::UserInterface(ostream &os, istream &is)
+        :out_{os},
+         in_{is} {
+    int rows_, columns_;
+    std::string player1, player2;
+
+    out_ << "Welcome to the world of Hexaspawn!" << "\n";
+
+    out_ << "Enter number of rows :: ";
+    in_ >> rows_;
+    out_ << "Enter number of columns :: ";
+    in_ >> columns_;
+    model_ = Model(rows_ ,columns_);
+
+    out_ << "Enter Name of Player choosing Black :: ";
+    in_ >> player1;
+    player1_ = player1;
+
+    out_ << "Enter Name of Player choosing White :: ";
+    in_ >> player2;
+    player2_ = player2;
+}
+
+std::string UserInterface::get_current_player() const{
+    return player_name_(model_.current_player());
+}
+
+void UserInterface::print_board() const {
     for (int x = 0 ; x < model_.get_board_row_size(); ++x) {
+        cout<< x <<" |";
         for (int y = 0; y <  model_.get_board_column_size(); ++y) {
             Model::Piece piece = model_.get_piece_at(Model::Point(x,y));
             if (piece == Model::Piece::White) {
@@ -22,11 +50,7 @@ void UserInterface::print_board() {
     }
 }
 
-void UserInterface::set_player_names() {
-
-}
-
-void UserInterface::print_legal_moves() {
+void UserInterface::print_legal_moves() const {
     vector<Model::Move> legal_moves = model_.get_legal_moves();
     for (unsigned int i = 0; i < legal_moves.size(); i++) {
         out_ << "Move " << i + 1<< ": " << "(" <<
@@ -35,9 +59,10 @@ void UserInterface::print_legal_moves() {
     }
 }
 
-void UserInterface::display_welcome() {
-
+void UserInterface::display_winner() const {
+    out_ << player_name_(model_.current_player()) << " Won! " ;
 }
+
 
 void UserInterface::get_user_move() {
     int moveNumber;
@@ -47,23 +72,27 @@ void UserInterface::get_user_move() {
     model_.move_choice(moveNumber);
 }
 
-void UserInterface::display_winner() {
-
+Model UserInterface::get_model() const {
+    return model_;
 }
 
-UserInterface::UserInterface(Model model)
-        : model_(model),
-          player1_("A"),
-          player2_("B"),
-          in_(std::cin),
-          out_(std::cout){}
-
-
-UserInterface::UserInterface(Model model, std::string player1, std::string player2, istream &is, ostream &os)
-        : model_{model},
-          player1_{player1},
-          player2_{player2},
-          in_(is),
-          out_(os){
-
+std::string const &UserInterface::player_name_(Model::Player p) const {
+    if (p == Model::Player::B) {
+        return player1_;
+    } else {
+        return player2_;
+    }
 }
+
+
+
+void UserInterface::display() const {
+    print_board();
+    out_ << get_current_player() << "'s Turn" << "\n";
+    print_legal_moves();
+}
+
+bool UserInterface::is_game_over() const {
+    return model_.is_game_over();
+}
+

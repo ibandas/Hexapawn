@@ -13,22 +13,29 @@ class UserInterface {
 
 public:
 
-    UserInterface(Model model);
-    UserInterface(Model model_,std::string player1_,std::string player2_, istream &is, ostream &os);
-    void print_board();
-    void set_player_names();
-    void print_legal_moves();
-    void display_welcome();
+    UserInterface(ostream &os, istream& is);
+
+    bool is_game_over() const;
+
+    void display() const ;
+
     void get_user_move(); // confirm move?
 
+    Model get_model() const;
+
+    std::string get_current_player() const ;
+
     //PRECONDITION: The game is over
-    void display_winner();
+    void display_winner() const ;
 
 private:
     Model model_;
     std::string player1_, player2_;
     std::ostream &out_;
     std::istream &in_;
+
+    void print_board() const ;
+    void print_legal_moves() const ;
 
     std::string const& player_name_(Model::Player) const;
 

@@ -52,9 +52,6 @@ public:
     // void get_user_move(istream &is, ostream &os);
     void move_choice(int moveNumber);
 
-    //switches the player playing the game
-    void switch_turns(Model::Player p);
-
     //gets the player who is currently playing
     Player current_player() const ;
 
@@ -65,6 +62,9 @@ private:
 
     vector<vector<Piece>> board_;
     Player turn_;
+
+    //switches the player playing the game
+    void switch_turns(Model::Player p);
 
     //move a particular pawn from one position on the board to the other
     void move_pawn(Point current_position_, Point final_position_ );

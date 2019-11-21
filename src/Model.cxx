@@ -10,12 +10,6 @@ Model::Model()
 Model::Model(int rows, int columns) {
     if (rows < 3 || columns < 3) {
 
-//        cout << "Enter number of rows equal or greater than three: ";
-//        cin >> rows;
-//        cout << "Enter number of columns equal or greater than three: ";
-//        cin >> columns;
-//        cout << "\n";
-
         throw std::invalid_argument("Model::Model requires more than 2 rows and columns");
 
     }
@@ -38,55 +32,6 @@ Model::Model(int rows, int columns) {
         }
     }
 }
-
-
-//Model::Model() {
-//    int rows = 0;
-//    int columns = 0;
-//    while(rows < 3 || columns < 3) {
-//        cout << "Enter number of rows equal or greater than three: ";
-//        cin >> rows;
-//        cout << "Enter number of columns equal or greater than three: ";
-//        cin >> columns;
-//        cout << "\n";
-//    }
-//    // Initialize Player
-//    turn_ = Player::B;
-//    // Initialize board
-//    board_.resize(rows);
-//    for (int i = 0; i < rows; i++)
-//        board_[i].resize(columns);
-//
-//    for (int x = 0; x < rows; x++) {
-//        for (int y = 0; y < columns; y++) {
-//            if (x == 0) {
-//                board_[x][y] = Model::Piece::White;
-//            } else if (x == rows - 1) {
-//                board_[x][y] = Model::Piece::Black;
-//            } else {
-//                board_[x][y] = Model::Piece::Empty;
-//            }
-//        }
-//    }
-//}
-
-
-//void Model::print_board(ostream &os) const {
-//    for (auto & row : board_) {
-//        for (auto & column : row) {
-//            if (column == Model::Piece::White) {
-//                os << "W ";
-//            }
-//            else if (column == Model::Piece::Black) {
-//                os << "B ";
-//            }
-//            else  {
-//                os << "N ";
-//            }
-//        }
-//        os << "\n";
-//    }
-//}
 
 vector<Model::Move> Model::get_legal_moves() const {
     vector<Model::Move> legal_moves;
@@ -224,13 +169,13 @@ void Model::move_choice(int moveNumber) {
 }
 
 bool Model::is_reached_end() const{
-    if(turn_ == Model::Player::B){
+    if(turn_ == Model::Player::W){
         for(auto i : board_[0])
         {
             if(i == Model::Piece::Black)
                 return true;
         }
-    } else if(turn_ == Model::Player::W){
+    } else if(turn_ == Model::Player::B){
         for(auto i : board_[board_.size() - 1])
         {
             if(i == Model::Piece::White)
