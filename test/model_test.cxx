@@ -13,9 +13,9 @@ TEST_CASE("Construct custom Model")
 
 TEST_CASE("Construct Bad Model")
 {
-   CHECK_THROWS_AS((Model{5,2}),std::invalid_argument);
-   CHECK_THROWS_AS((Model{2,2}),std::invalid_argument);
-   CHECK_THROWS_AS((Model{1,5}),std::invalid_argument);
+   CHECK_THROWS_AS((Model(5,2)),std::invalid_argument);
+   CHECK_THROWS_AS((Model(2,2)),std::invalid_argument);
+   CHECK_THROWS_AS((Model(1,5)),std::invalid_argument);
 }
 
 TEST_CASE("Initial Player is B")
