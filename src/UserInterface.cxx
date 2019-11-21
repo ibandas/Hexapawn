@@ -1,6 +1,8 @@
 //
 // Created by madhav on 20-11-2019.
 //
+#define underline "\033[4m"
+#define turn_off_underline "\033[0m"
 
 #include "UserInterface.hxx"
 
@@ -10,7 +12,7 @@ UserInterface::UserInterface(ostream &os, istream &is)
     int rows_, columns_;
     std::string player1, player2;
 
-    out_ << "Welcome to the world of Hexaspawn!" << "\n";
+    out_ << "Welcome to the world of Hexapawn!" << "\n";
 
     out_ << "Enter number of rows :: ";
     in_ >> rows_;
@@ -32,6 +34,14 @@ std::string UserInterface::get_current_player() const{
 }
 
 void UserInterface::print_board() const {
+    cout << "\n";
+    cout << "__|";
+    // This loop is strictly for printing the top header for the column
+    for (int z = 0; z < model_.get_board_column_size(); ++z) {
+        cout << underline << z << " ";
+    }
+    cout << turn_off_underline;
+    cout << "\n";
     for (int x = 0 ; x < model_.get_board_row_size(); ++x) {
         cout<< x <<" |";
         for (int y = 0; y <  model_.get_board_column_size(); ++y) {
