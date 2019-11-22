@@ -40,15 +40,14 @@ TEST_CASE("Initial Player is B")
     CHECK(m.current_player() == Model::Player::B);
 }
 
+//TEST_CASE("Get User Move")
+//{
+//
+//}
+
 TEST_CASE("Test Run on 3x3 Board")
 {
     Model m;
-//    vector<Model::Move> black_legal_moves =
-//            {Model::Move(Model::Point(2, 0), Model::Point(1, 0)),
-//             Model::Move(Model::Point(2, 1), Model::Point(1, 1)),
-//             Model::Move(Model::Point(2, 2), Model::Point(1, 2))};
-//    vector<Model::Move> black_legal_moves_test = m.get_legal_moves();
-//    CHECK(black_legal_moves == black_legal_moves_test);
 
     // Move 1
     CHECK(m.current_player() == Model::Player::B);
@@ -91,5 +90,16 @@ TEST_CASE("Test Run on 3x3 Board")
     CHECK(piece3 == Model::Piece::Black);
     CHECK(m.is_game_over());
 
+}
+
+TEST_CASE("Test Run on 3x3 Board Bad Move")
+{
+    Model m;
+
+    // Move 1
+    CHECK(m.current_player() == Model::Player::B);
+    Model::Piece piece1 = m.get_piece_at(Model::Point(1, 0));
+    CHECK(piece1 == Model::Piece::Empty);
+    CHECK_THROWS_AS(m.move_choice(5), std::invalid_argument);
 }
 

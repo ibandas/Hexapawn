@@ -15,8 +15,6 @@ public:
 
     UserInterface(ostream &os, istream& is);
 
-    bool is_game_over() const;
-
     void display() const ;
 
     void get_user_move(); // confirm move?
@@ -25,6 +23,9 @@ public:
 
     std::string get_current_player() const ;
 
+    void display_game_over() const;
+
+    void play_game();
     //PRECONDITION: The game is over
     void display_winner() const ;
 

@@ -6,6 +6,11 @@ add_cxx_test(model_test
         test/model_test.cxx
         src/Model.cxx)
 
+add_cxx_test(userinterface_test
+        test/userinterface_test.cxx
+        src/UserInterface.cxx
+        src/Model.cxx)
+
 add_cxx_program(hexapawn
         src/hexapawn.cxx
         src/Model.cxx

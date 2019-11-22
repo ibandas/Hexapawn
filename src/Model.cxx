@@ -142,15 +142,6 @@ void Model::switch_turns(Model::Player p) {
     }
 }
 
-void Model::print_legal_moves(ostream &os) const {
-    vector<Move> legal_moves = get_legal_moves();
-    for (unsigned int i = 0; i < legal_moves.size(); i++) {
-        os << "Move " << i + 1<< ": " << "(" <<
-           legal_moves[i].current_position_.x << "," << legal_moves[i].current_position_.y << ")" << " to " << "(" <<
-           legal_moves[i].final_position_.x << "," << legal_moves[i].final_position_.y << ")" << "\n";
-    }
-}
-
 void Model::move_pawn(Model::Point current_position_, Model::Point final_position_) {
     Model::Piece current_piece_ = board_[current_position_.x][current_position_.y];
     board_[current_position_.x][current_position_.y] = Model::Piece::Empty;
@@ -165,7 +156,10 @@ void Model::move_choice(int moveNumber) {
         throw std::invalid_argument("Not a valid Move Number");
     }
     move_pawn(availableMoves[moveNumber-1].current_position_,availableMoves[moveNumber-1].final_position_);
-    switch_turns(turn_);
+
+    if(!is_game_over_win()) {
+        switch_turns(turn_);
+    }
 }
 
 bool Model::is_reached_end() const{
@@ -186,8 +180,12 @@ bool Model::is_reached_end() const{
     return false;
 }
 
-bool Model::is_game_over() const {
-    return is_reached_end() || get_legal_moves().empty();
+bool Model::is_game_over_win() const {
+    return is_reached_end();
+}
+
+bool Model::is_game_over_stalemate() const {
+    return get_legal_moves().empty();
 }
 
 Model::Player Model::current_player() const {

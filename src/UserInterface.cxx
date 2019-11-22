@@ -1,6 +1,7 @@
 //
 // Created by madhav on 20-11-2019.
 //
+
 #define underline "\033[4m"
 #define turn_off_underline "\033[0m"
 
@@ -9,7 +10,7 @@
 UserInterface::UserInterface(ostream &os, istream &is)
         :out_{os},
          in_{is} {
-    int rows_, columns_;
+    int rows_ = 3, columns_ = 3;
     std::string player1, player2;
 
     out_ << "Welcome to the world of Hexapawn!" << "\n";
@@ -38,9 +39,9 @@ void UserInterface::print_board() const {
     cout << "__|";
     // This loop is strictly for printing the top header for the column
     for (int z = 0; z < model_.get_board_column_size(); ++z) {
-        cout << underline << z << " ";
+        cout << z << " ";
     }
-    cout << turn_off_underline;
+//    cout << turn_off_underline;
     cout << "\n";
     for (int x = 0 ; x < model_.get_board_row_size(); ++x) {
         cout<< x <<" |";
@@ -102,7 +103,20 @@ void UserInterface::display() const {
     print_legal_moves();
 }
 
-bool UserInterface::is_game_over() const {
-    return model_.is_game_over();
+void UserInterface::display_game_over() const {
+    out_<<"Game Over No More Moves left to play";
+}
+
+void UserInterface::play_game() {
+    while(!model_.is_game_over_win() && !model_.is_game_over_stalemate() ) {
+        display();
+        get_user_move();
+    }
+
+    if(model_.is_game_over_stalemate())
+        display_game_over();
+
+    if(model_.is_game_over_win())
+        display_winner();
 }
 

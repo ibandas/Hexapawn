@@ -33,23 +33,22 @@ public:
         Point final_position_;
     };
 
-    //checks if game is over?
-    bool is_game_over() const;
+    //checks if game is over in case of a winner
+    bool is_game_over_win() const;
 
-    //prints out all of the legal moves a user can perform with their pawns
-    void print_legal_moves(ostream &os) const ;
+    //checks if game is over in case of a stale-mate
+    bool is_game_over_stalemate() const;
 
-    //prints the state of the model
-    void print_board(ostream &os) const;
-
+    //gets the number of rows in the board
     int get_board_row_size() const;
 
+    //gets the number of columns in the board
     int get_board_column_size() const;
 
+    // gets the piece at the particular index on the board
     Piece get_piece_at(Point p) const;
 
-    // gets the user input for the move from the user
-    // void get_user_move(istream &is, ostream &os);
+    // Makes the move.
     void move_choice(int moveNumber);
 
     //gets the player who is currently playing
