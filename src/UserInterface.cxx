@@ -83,10 +83,6 @@ void UserInterface::get_user_move() {
     model_.move_choice(moveNumber);
 }
 
-Model UserInterface::get_model() const {
-    return model_;
-}
-
 std::string const &UserInterface::player_name_(Model::Player p) const {
     if (p == Model::Player::B) {
         return player1_;
